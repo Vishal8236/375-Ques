@@ -42,3 +42,12 @@ Explaination: Minimum number of coins and notes needed  to make 43.
 Input: N = 1000
 Output: 500 500
 Explaination: minimum possible notes is 2 notes of 500.
+
+**Algorithm:**
+
+1. Sort the array of coins in decreasing order.
+2. Initialize result as empty.
+3. Find the largest denomination that is smaller than current amount.
+4. Add found denomination to result. Subtract value of found denomination from amount.
+5. If amount becomes 0, then print result.
+6. Else repeat steps 3 and 4 for new value of V.

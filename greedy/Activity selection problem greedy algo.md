@@ -2,6 +2,12 @@
 
 Given N activities with their start and finish day given in array start[] and end[]. Select the maximum number of activities that can be performed by a single person, assuming that a person can only work on a single activity at a given day.
 
+The greedy choice is to always pick the next activity whose finish time is least among the remaining activities and the start time is more than or equal to the finish time of the previously selected activity. We can sort the activities according to their finishing time so that we always consider the next activity as minimum finishing time activity.
+1) Sort the activities according to their finishing time 
+
+2) Select the first activity from the sorted array and print it. 
+
+3) Do the following for the remaining activities in the sorted array. 
 
 ```cpp
 class Solution{
