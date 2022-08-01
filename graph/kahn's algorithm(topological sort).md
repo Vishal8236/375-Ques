@@ -19,18 +19,6 @@ Note that there are multiple topological sortings possible for a DAG. For the gr
 
 ```cpp
 #include<bits/stdc++.h>
-void f(int i, int v, unordered_map<int, vector<int>> &adj, vector<bool> &visi, stack<int> &temp)
-{
-    visi[i] = true;
-    for(auto it : adj[i])
-    {
-        if(!visi[it])
-        {
-            f(it, v, adj, visi, temp);
-        }
-    }
-    temp.push(i);    
-}
 vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
     // Write your code here
     unordered_map<int, vector<int>> adj;
@@ -42,21 +30,47 @@ vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
         
         adj[u].push_back(v);
     }
-    vector<int> res;
-    stack<int> temp;
-    vector<bool> visi(v, false);
-    for(int i=0; i<v; i++)
+    queue<int> q;
+    vector<int> indgree(v, 0);
+    //store indgree
+    for(auto i : adj)
     {
-        if(visi[i] == false)
+        for(auto j : i.second)
         {
-            f(i, v, adj, visi, temp);
+            indgree[j]++;
         }
     }
-    while(!temp.empty())
+    
+    //push all the elements in queue that have 0 indgree
+    for(int i=0; i<indgree.size(); i++)
     {
-        res.push_back(temp.top());
-        temp.pop();
+        if(indgree[i] == 0) q.push(i);
+    }
+
+    vector<int> res;
+
+    //now travere graph with BSF
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        
+        res.push_back(node);
+        for(auto it : adj[node])
+        {
+            indgree[it]--;
+            if(indgree[it] == 0)
+            {
+                q.push(it);            
+            }
+        }
     }
     return res;
 }
 ```
+
+**Hint**
+
+1. Find indgree of all nodes
+2. Because we are using BSF so insert all node's which have 0 indgree
+3. Do BSF
